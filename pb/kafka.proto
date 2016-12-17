@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package kafka;
+
+option go_package = "kafkapb";
+
+service KafkaService {
+  rpc Consumer(ConsumerRequest) returns (ConsumerResponse) {}
+  rpc Producer(ProducerRequest) returns (ProducerResponse) {}
+}
+
+message ConsumerRequest {
+}
+
+message ConsumerResponse {
+  string err_msg = 1;
+}
+
+message ProducerRequest {
+}
+
+message ProducerResponse {
+  string err_msg = 1;
+}
