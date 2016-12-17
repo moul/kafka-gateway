@@ -9,6 +9,7 @@ import (
 	"os/signal"
 	"syscall"
 
+	sarama "github.com/Shopify/sarama"
 	"github.com/go-kit/kit/log"
 	"github.com/gorilla/handlers"
 	"google.golang.org/grpc"
@@ -19,7 +20,6 @@ import (
 	"github.com/moul/kafka-gateway/gen/transports/http"
 	"github.com/moul/kafka-gateway/service"
 )
-
 
 func main() {
 	mux := http.NewServeMux()
@@ -33,8 +33,21 @@ func main() {
 		logger = log.NewContext(logger).With("caller", log.DefaultCaller)
 	}
 
+	var kafkaSyncProducer sarama.SyncProducer
 	{
-		svc := kafkasvc.New()
+		brokers := []string{"127.0.0.1:9092"}
+		config := sarama.NewConfig()
+		config.Producer.RequiredAcks = sarama.WaitForAll
+		config.Producer.Retry.Max = 5
+		var err error
+		kafkaSyncProducer, err = sarama.NewSyncProducer(brokers, config)
+		if err != nil {
+			panic(err)
+		}
+	}
+
+	{
+		svc := kafkasvc.New(kafkaSyncProducer)
 		endpoints := kafka_endpoints.MakeEndpoints(svc)
 		srv := kafka_grpctransport.MakeGRPCServer(ctx, endpoints)
 		kafkapb.RegisterKafkaServiceServer(s, srv)
