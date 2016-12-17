@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	stdlog "log"
 	"net"
 	"net/http"
 	"os"
@@ -39,10 +40,12 @@ func main() {
 		config := sarama.NewConfig()
 		config.Producer.RequiredAcks = sarama.WaitForAll
 		config.Producer.Retry.Max = 5
+		config.Producer.Return.Successes = true
 		var err error
 		kafkaSyncProducer, err = sarama.NewSyncProducer(brokers, config)
 		if err != nil {
-			panic(err)
+			stdlog.Printf("Failed to initiate sarama.SyncProducer: %v", err)
+			os.Exit(-1)
 		}
 	}
 
