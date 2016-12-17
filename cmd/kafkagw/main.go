@@ -23,6 +23,7 @@ import (
 )
 
 func main() {
+	brokers := []string{"127.0.0.1:9092"}
 	mux := http.NewServeMux()
 	ctx := context.Background()
 	errc := make(chan error)
@@ -36,7 +37,6 @@ func main() {
 
 	var kafkaSyncProducer sarama.SyncProducer
 	{
-		brokers := []string{"127.0.0.1:9092"}
 		config := sarama.NewConfig()
 		config.Producer.RequiredAcks = sarama.WaitForAll
 		config.Producer.Retry.Max = 5
@@ -50,7 +50,7 @@ func main() {
 	}
 
 	{
-		svc := kafkasvc.New(kafkaSyncProducer)
+		svc := kafkasvc.New(kafkaSyncProducer, brokers)
 		endpoints := kafka_endpoints.MakeEndpoints(svc)
 		srv := kafka_grpctransport.MakeGRPCServer(ctx, endpoints)
 		kafkapb.RegisterKafkaServiceServer(s, srv)
