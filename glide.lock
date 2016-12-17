@@ -1,5 +1,5 @@
 hash: f2a2e812ab1ce1393b8db17bb34c24db19bd8dd40dd511776b99cee8c5b5a5f3
-updated: 2016-12-17T17:03:27.189456699+01:00
+updated: 2016-12-17T17:34:57.250983642+01:00
 imports:
 - name: github.com/go-kit/kit
   version: e6483c218a707902b3482653ee873d59d9fccf8e
