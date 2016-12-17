@@ -1,7 +1,7 @@
 # kafka-gateway
 :microphone: Kafka Gateway (gRPC+http) micro-service
 
-A kafka gateway / proxy, developed as a micro-service using Sarama, Protobuf and Go-Kit, with more that 75% boilerplate code generated automatically using protoc-gen-gotemplate.
+A [kafka](https://kafka.apache.org/) gateway / proxy, developed as a micro-service using [Sarama](https://github.com/Shopify/sarama), [Protobuf](https://github.com/google/protobuf) and [Go-Kit](https://github.com/go-kit/kit), with more that 75% boilerplate code generated automatically using [protoc-gen-gotemplate](https://github.com/moul/protoc-gen-gotemplate).
 
 ## Usage
 
