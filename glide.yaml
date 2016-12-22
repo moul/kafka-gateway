@@ -1,3 +1,5 @@
 package: github.com/moul/kafka-gateway
 import:
 - package: github.com/moul/protoc-gen-gotemplate
+  subpackages:
+  - examples/go-kit/templates
