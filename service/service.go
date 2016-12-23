@@ -43,6 +43,10 @@ func (s *Service) Consumer(ctx context.Context, input *kafkapb.ConsumerRequest) 
 	return nil, fmt.Errorf("not implemented")
 }
 
+func (s *Service) ConsumerStream(input *kafkapb.ConsumerStreamRequest, server kafkapb.KafkaService_ConsumerStreamServer) (err error) {
+	return fmt.Errorf("not implemented")
+}
+
 func (s *Service) Producer(ctx context.Context, input *kafkapb.ProducerRequest) (*kafkapb.ProducerResponse, error) {
 	packet := &sarama.ProducerMessage{
 		Topic: input.Topic,
