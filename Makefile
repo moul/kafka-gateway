@@ -14,6 +14,7 @@ gen/pb/kafka.pb.go: pb/kafka.proto
 gen/.generated:	pb/kafka.proto
 	@mkdir -p gen
 	cd pb; protoc --gotemplate_out=destination_dir=../gen,template_dir=../vendor/github.com/moul/protoc-gen-gotemplate/examples/go-kit/templates/{{.File.Package}}/gen:../gen ./kafka.proto
+	gofmt -w gen
 	@touch gen/.generated
 
 .PHONY: test
