@@ -4,9 +4,10 @@ import (
 	"fmt"
 
 	grpctransport "github.com/go-kit/kit/transport/grpc"
+	context "golang.org/x/net/context"
+
 	endpoints "github.com/moul/kafka-gateway/gen/endpoints"
 	pb "github.com/moul/kafka-gateway/gen/pb"
-	context "golang.org/x/net/context"
 )
 
 // avoid import errors

@@ -1,21 +1,19 @@
 DOCKER_IMAGE ?=	moul/kafkagw
-SOURCES := cmd/kafkagw/main.go service/service.go
 
 .PHONY: build
-build: kafkagw
+build: kafkagw kafkagw-client
 
-kafkagw: gen/pb/kafka.pb.go gen/.generated $(SOURCES)
+kafkagw: gen/pb/kafka.pb.go cmd/kafkagw/main.go service/service.go
 	go build -o kafkagw ./cmd/kafkagw
 
-gen/pb/kafka.pb.go: pb/kafka.proto
-	@mkdir -p gen/pb
-	cd pb; protoc --gogo_out=plugins=grpc:../gen/pb ./kafka.proto
+kafkagw-client: gen/pb/kafka.pb.go cmd/kafkagw-client/main.go
+	go build -o kafkagw-client ./cmd/kafkagw-client
 
-gen/.generated:	pb/kafka.proto
-	@mkdir -p gen
+gen/pb/kafka.pb.go:	pb/kafka.proto
+	@mkdir -p gen/pb
 	cd pb; protoc --gotemplate_out=destination_dir=../gen,template_dir=../vendor/github.com/moul/protoc-gen-gotemplate/examples/go-kit/templates/{{.File.Package}}/gen:../gen ./kafka.proto
 	gofmt -w gen
-	@touch gen/.generated
+	cd pb; protoc --gogo_out=plugins=grpc:../gen/pb ./kafka.proto
 
 .PHONY: test
 test:
@@ -24,6 +22,7 @@ test:
 .PHONY: install
 install:
 	go install ./cmd/kafkagw
+	go install ./cmd/kafkagw-client
 
 .PHONY: docker.build
 docker.build:
