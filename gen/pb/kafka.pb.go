@@ -48,6 +48,20 @@ func (m *ConsumerRequest) String() string            { return proto.CompactTextS
 func (*ConsumerRequest) ProtoMessage()               {}
 func (*ConsumerRequest) Descriptor() ([]byte, []int) { return fileDescriptorKafka, []int{0} }
 
+func (m *ConsumerRequest) GetTopics() []string {
+	if m != nil {
+		return m.Topics
+	}
+	return nil
+}
+
+func (m *ConsumerRequest) GetClientId() string {
+	if m != nil {
+		return m.ClientId
+	}
+	return ""
+}
+
 type ConsumerResponse struct {
 	Value  string `protobuf:"bytes,1,opt,name=value,proto3" json:"value,omitempty"`
 	ErrMsg string `protobuf:"bytes,2,opt,name=err_msg,json=errMsg,proto3" json:"err_msg,omitempty"`
@@ -57,6 +71,20 @@ func (m *ConsumerResponse) Reset()                    { *m = ConsumerResponse{} 
 func (m *ConsumerResponse) String() string            { return proto.CompactTextString(m) }
 func (*ConsumerResponse) ProtoMessage()               {}
 func (*ConsumerResponse) Descriptor() ([]byte, []int) { return fileDescriptorKafka, []int{1} }
+
+func (m *ConsumerResponse) GetValue() string {
+	if m != nil {
+		return m.Value
+	}
+	return ""
+}
+
+func (m *ConsumerResponse) GetErrMsg() string {
+	if m != nil {
+		return m.ErrMsg
+	}
+	return ""
+}
 
 type ProducerRequest struct {
 	Topic string `protobuf:"bytes,1,opt,name=topic,proto3" json:"topic,omitempty"`
@@ -69,6 +97,27 @@ func (m *ProducerRequest) String() string            { return proto.CompactTextS
 func (*ProducerRequest) ProtoMessage()               {}
 func (*ProducerRequest) Descriptor() ([]byte, []int) { return fileDescriptorKafka, []int{2} }
 
+func (m *ProducerRequest) GetTopic() string {
+	if m != nil {
+		return m.Topic
+	}
+	return ""
+}
+
+func (m *ProducerRequest) GetValue() string {
+	if m != nil {
+		return m.Value
+	}
+	return ""
+}
+
+func (m *ProducerRequest) GetKey() string {
+	if m != nil {
+		return m.Key
+	}
+	return ""
+}
+
 type ProducerResponse struct {
 	Partition int32  `protobuf:"varint,1,opt,name=partition,proto3" json:"partition,omitempty"`
 	Offset    int64  `protobuf:"varint,2,opt,name=offset,proto3" json:"offset,omitempty"`
@@ -80,6 +129,27 @@ func (m *ProducerResponse) String() string            { return proto.CompactText
 func (*ProducerResponse) ProtoMessage()               {}
 func (*ProducerResponse) Descriptor() ([]byte, []int) { return fileDescriptorKafka, []int{3} }
 
+func (m *ProducerResponse) GetPartition() int32 {
+	if m != nil {
+		return m.Partition
+	}
+	return 0
+}
+
+func (m *ProducerResponse) GetOffset() int64 {
+	if m != nil {
+		return m.Offset
+	}
+	return 0
+}
+
+func (m *ProducerResponse) GetErrMsg() string {
+	if m != nil {
+		return m.ErrMsg
+	}
+	return ""
+}
+
 type ConsumerStreamRequest struct {
 	Topics   []string `protobuf:"bytes,1,rep,name=topics" json:"topics,omitempty"`
 	ClientId string   `protobuf:"bytes,2,opt,name=client_id,json=clientId,proto3" json:"client_id,omitempty"`
@@ -90,6 +160,20 @@ func (m *ConsumerStreamRequest) String() string            { return proto.Compac
 func (*ConsumerStreamRequest) ProtoMessage()               {}
 func (*ConsumerStreamRequest) Descriptor() ([]byte, []int) { return fileDescriptorKafka, []int{4} }
 
+func (m *ConsumerStreamRequest) GetTopics() []string {
+	if m != nil {
+		return m.Topics
+	}
+	return nil
+}
+
+func (m *ConsumerStreamRequest) GetClientId() string {
+	if m != nil {
+		return m.ClientId
+	}
+	return ""
+}
+
 type ConsumerStreamResponse struct {
 	Value  string `protobuf:"bytes,1,opt,name=value,proto3" json:"value,omitempty"`
 	ErrMsg string `protobuf:"bytes,2,opt,name=err_msg,json=errMsg,proto3" json:"err_msg,omitempty"`
@@ -99,6 +183,20 @@ func (m *ConsumerStreamResponse) Reset()                    { *m = ConsumerStrea
 func (m *ConsumerStreamResponse) String() string            { return proto.CompactTextString(m) }
 func (*ConsumerStreamResponse) ProtoMessage()               {}
 func (*ConsumerStreamResponse) Descriptor() ([]byte, []int) { return fileDescriptorKafka, []int{5} }
+
+func (m *ConsumerStreamResponse) GetValue() string {
+	if m != nil {
+		return m.Value
+	}
+	return ""
+}
+
+func (m *ConsumerStreamResponse) GetErrMsg() string {
+	if m != nil {
+		return m.ErrMsg
+	}
+	return ""
+}
 
 func init() {
 	proto.RegisterType((*ConsumerRequest)(nil), "kafka.ConsumerRequest")

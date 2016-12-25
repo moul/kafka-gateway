@@ -40,11 +40,27 @@ func (s *Service) Consumer(ctx context.Context, input *kafkapb.ConsumerRequest) 
 		}, nil
 	}
 
-	return nil, fmt.Errorf("not implemented")
+	return nil, fmt.Errorf("panic")
 }
 
 func (s *Service) ConsumerStream(input *kafkapb.ConsumerStreamRequest, server kafkapb.KafkaService_ConsumerStreamServer) (err error) {
-	return fmt.Errorf("not implemented")
+	config := sarama_cluster.NewConfig()
+	config.ClientID = input.ClientId
+	config.Consumer.Return.Errors = true
+	config.Group.Return.Notifications = true
+	consumer, err := sarama_cluster.NewConsumer(s.brokers, "groupTest", input.Topics, config)
+	if err != nil {
+		return err
+	}
+	defer consumer.Close()
+
+	for msg := range consumer.Messages() {
+		server.Send(&kafkapb.ConsumerStreamResponse{
+			Value: string(msg.Value),
+		})
+	}
+
+	return fmt.Errorf("panic")
 }
 
 func (s *Service) Producer(ctx context.Context, input *kafkapb.ProducerRequest) (*kafkapb.ProducerResponse, error) {
