@@ -16,6 +16,10 @@ gen/.generated:	pb/kafka.proto
 	cd pb; protoc --gotemplate_out=destination_dir=../gen,template_dir=../vendor/github.com/moul/protoc-gen-gotemplate/examples/go-kit/templates/{{.File.Package}}/gen:../gen ./kafka.proto
 	@touch gen/.generated
 
+.PHONY: test
+test:
+	go test -v $(shell go list ./... | grep -v /vendor/)
+
 .PHONY: install
 install:
 	go install ./cmd/kafkagw
@@ -27,3 +31,14 @@ docker.build:
 .PHONY: docker.run
 docker.run:
 	docker run -p 8000:8000 -p 9000:9000 $(DOCKER_IMAGE)
+
+.PHONY: docker.test
+docker.test: docker.build
+	docker run $(DOCKER_IMAGE) make test
+
+.PHONY: clean
+clean:
+	rm -rf gen
+
+.PHONY: re
+re: clean build
