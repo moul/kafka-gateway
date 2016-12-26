@@ -1,12 +1,14 @@
-hash: f2a2e812ab1ce1393b8db17bb34c24db19bd8dd40dd511776b99cee8c5b5a5f3
-updated: 2016-12-22T10:36:17.670237576+01:00
+hash: 3ae5a4c8e58591478c618f526c4a23c9b5c82dc623d8c5535e0b78f1e9f2f2ee
+updated: 2016-12-26T00:47:16.973554206+01:00
 imports:
 - name: github.com/bsm/sarama-cluster
-  version: 7f63f9e1f4c350d3b180261e3818e0b97e9ef6cc
+  version: 11887f57ba85b075757463e9a4ffcfb0851ddff3
 - name: github.com/davecgh/go-spew
   version: 346938d642f2ec3594ed81d874461961cd0faa76
   subpackages:
   - spew
+- name: github.com/dgrijalva/jwt-go
+  version: 9ed569b5d1ac936e6494082958d63a6aa4fff99a
 - name: github.com/eapache/go-resiliency
   version: b86b1ec0dd4209a588dc1285cdd471e73525c0b3
   subpackages:
@@ -16,8 +18,9 @@ imports:
 - name: github.com/eapache/queue
   version: 44cc805cf13205b55f69e14bcb69867d1ae92f98
 - name: github.com/go-kit/kit
-  version: 9f5c614cd1e70102f80b644edbc760805ebf16d5
+  version: f66b0e13579bfc5a48b9e2a94b1209c107ea1f41
   subpackages:
+  - auth/jwt
   - endpoint
   - log
   - transport/grpc
@@ -31,23 +34,35 @@ imports:
   subpackages:
   - proto
 - name: github.com/golang/protobuf
-  version: 98fa357170587e470c5f27d3c3ea0947b71eb455
+  version: 8ee79997227bf9b34611aee7946ae64735e6fd93
   subpackages:
   - proto
 - name: github.com/golang/snappy
   version: d9eb7a3d35ec988b8585d4a0068e462c27d28380
 - name: github.com/gorilla/handlers
-  version: e1b2144f2167de0e1042d1d35e5cba5119d4fb5d
+  version: 3a5767ca75ece5f7f1440b1d16975247f8d8b221
 - name: github.com/klauspost/crc32
   version: cb6bfca970f6908083f26f39a79009d608efd5cd
 - name: github.com/kr/logfmt
   version: b84e30acd515aadc4b783ad4ff83aff3299bdfe0
 - name: github.com/moul/protoc-gen-gotemplate
-  version: 453376e811f535a8804a45719fac670a414c2d5c
+  version: c26d72d1ad03226294f163b73b40dcbfe5c89acb
+  subpackages:
+  - examples/go-kit/templates
+- name: github.com/pierrec/lz4
+  version: 5c9560bfa9ace2bf86080bf40d46b34ae44604df
+- name: github.com/pierrec/xxHash
+  version: 5a004441f897722c627870a981d02b29924215fa
+  subpackages:
+  - xxHash32
+- name: github.com/rcrowley/go-metrics
+  version: 1f30fe9094a513ce4c700b9a54458bbb0c96996c
 - name: github.com/Shopify/sarama
-  version: bd61cae2be85fa6ff40eb23dcdd24567967ac2ae
+  version: 0fb560e5f7fbcaee2f75e3c34174320709f69944
+- name: github.com/urfave/cli
+  version: 0bdeddeeb0f650497d603c4ad7b20cfe685682f6
 - name: golang.org/x/net
-  version: 3fe3024eef808ba2798cc1855690f49e2b860573
+  version: 45e771701b814666a7eb299e6c7a57d0b1799e91
   subpackages:
   - context
   - context/ctxhttp
@@ -58,7 +73,7 @@ imports:
   - lex/httplex
   - trace
 - name: google.golang.org/grpc
-  version: 777daa17ff9b5daef1cfdf915088a2ada3332bf0
+  version: 708a7f9f3283aa2d4f6132d287d78683babe55c8
   subpackages:
   - codes
   - credentials
@@ -67,5 +82,7 @@ imports:
   - metadata
   - naming
   - peer
+  - stats
+  - tap
   - transport
 testImports: []

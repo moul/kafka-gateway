@@ -5,8 +5,12 @@ package kafka;
 option go_package = "kafkapb";
 
 service KafkaService {
+  // unaries
   rpc Consumer(ConsumerRequest) returns (ConsumerResponse) {}
   rpc Producer(ProducerRequest) returns (ProducerResponse) {}
+
+  // streams
+  rpc ConsumerStream(ConsumerStreamRequest) returns (stream ConsumerStreamResponse) {}
 }
 
 message ConsumerRequest {
@@ -29,4 +33,14 @@ message ProducerResponse {
   int32 partition = 1;
   int64 offset = 2;
   string err_msg = 3;
+}
+
+message ConsumerStreamRequest {
+  repeated string topics = 1;
+  string client_id = 2;
+}
+
+message ConsumerStreamResponse {
+  string value = 1;
+  string err_msg = 2;
 }
