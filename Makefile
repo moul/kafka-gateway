@@ -15,6 +15,12 @@ gen/pb/kafka.pb.go:	pb/kafka.proto
 	gofmt -w gen
 	cd pb; protoc --gogo_out=plugins=grpc:../gen/pb ./kafka.proto
 
+.PHONY: stats
+stats:
+	wc -l service/service.go cmd/*/*.go pb/*.proto
+	wc -l $(shell find gen -name "*.go")
+
+
 .PHONY: test
 test:
 	go test -v $(shell go list ./... | grep -v /vendor/)
