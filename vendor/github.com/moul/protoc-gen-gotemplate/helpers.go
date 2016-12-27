@@ -56,11 +56,12 @@ var ProtoHelpersFuncMap = template.FuncMap{
 	"kebabCase": func(s string) string {
 		return strings.Replace(xstrings.ToSnakeCase(s), "_", "-", -1)
 	},
-	"getMessageType": getMessageType,
-	"isFieldMessage": isFieldMessage,
-	"goType":         goType,
-	"httpVerb":       httpVerb,
-	"httpPath":       httpPath,
+	"getMessageType":  getMessageType,
+	"isFieldMessage":  isFieldMessage,
+	"isFieldRepeated": isFieldRepeated,
+	"goType":          goType,
+	"httpVerb":        httpVerb,
+	"httpPath":        httpPath,
 }
 
 func init() {
@@ -70,9 +71,12 @@ func init() {
 }
 
 func getMessageType(f *descriptor.FileDescriptorProto, name string) *descriptor.DescriptorProto {
+	// name is in the form .packageName.MessageTypeName.InnerMessageTypeName...
+	// e.g. .article.ProductTag
+	splits := strings.Split(name, ".")
+	target := splits[len(splits)-1]
 	for _, m := range f.MessageType {
-		// name usually contains the package name
-		if strings.HasSuffix(name, *m.Name) {
+		if target == *m.Name {
 			return m
 		}
 	}
@@ -83,6 +87,14 @@ func getMessageType(f *descriptor.FileDescriptorProto, name string) *descriptor.
 func isFieldMessage(f *descriptor.FieldDescriptorProto) bool {
 	if f.Type != nil && *f.Type == descriptor.FieldDescriptorProto_TYPE_MESSAGE &&
 		f.Label != nil && *f.Label != descriptor.FieldDescriptorProto_LABEL_REPEATED {
+		return true
+	}
+
+	return false
+}
+
+func isFieldRepeated(f *descriptor.FieldDescriptorProto) bool {
+	if f.Type != nil && f.Label != nil && *f.Label == descriptor.FieldDescriptorProto_LABEL_REPEATED {
 		return true
 	}
 
