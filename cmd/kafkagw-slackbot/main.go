@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"io"
 	"os"
 	"strings"
 	"time"
@@ -19,9 +20,10 @@ var (
 	client kafkapb.KafkaServiceClient
 	conn   *grpc.ClientConn
 	ctx    context.Context
+	bot    *slackbot.Bot
 )
 
-func init() {
+func main() {
 	var err error
 	conn, err = grpc.Dial(
 		"127.0.0.1:9000",
@@ -33,12 +35,33 @@ func init() {
 	}
 	ctx = context.Background()
 	client = kafkapb.NewKafkaServiceClient(conn)
-}
 
-func main() {
-	bot := slackbot.New(os.Getenv("SLACK_TOKEN"))
+	go kafkaConsumer()
+
+	bot = slackbot.New(os.Getenv("SLACK_TOKEN"))
 	bot.Hear("(?)kafka produce (.*)").MessageHandler(kafkaProduceHandler)
 	bot.Run()
+}
+
+func kafkaConsumer() {
+	stream, err := client.ConsumerStream(ctx, &kafkapb.ConsumerStreamRequest{
+		Topics:   []string{"test"},
+		ClientId: "slackbot",
+	})
+	if err != nil {
+		panic(err)
+	}
+
+	for {
+		message, err := stream.Recv()
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			panic(err)
+		}
+		bot.RTM.SendMessage(bot.RTM.NewOutgoingMessage(fmt.Sprintf("<<< %v", message.Value), os.Getenv("SLACK_CHANNEL")))
+	}
 }
 
 func kafkaProduceHandler(ctx context.Context, bot *slackbot.Bot, msg *slack.MessageEvent) {
