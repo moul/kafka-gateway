@@ -1,6 +1,8 @@
 hash: 3ae5a4c8e58591478c618f526c4a23c9b5c82dc623d8c5535e0b78f1e9f2f2ee
-updated: 2016-12-26T00:47:16.973554206+01:00
+updated: 2016-12-27T18:55:31.004127359+01:00
 imports:
+- name: github.com/BeepBoopHQ/go-slackbot
+  version: 58027c0d5238a0604305652ea526b3c18a7cead1
 - name: github.com/bsm/sarama-cluster
   version: 11887f57ba85b075757463e9a4ffcfb0851ddff3
 - name: github.com/davecgh/go-spew
@@ -46,9 +48,11 @@ imports:
 - name: github.com/kr/logfmt
   version: b84e30acd515aadc4b783ad4ff83aff3299bdfe0
 - name: github.com/moul/protoc-gen-gotemplate
-  version: c26d72d1ad03226294f163b73b40dcbfe5c89acb
+  version: 791af18420d0faa5229cbed53c00a27c34631352
   subpackages:
   - examples/go-kit/templates
+- name: github.com/nlopes/slack
+  version: e595e9d8590a04ff76407e4e7d1791d25b095c66
 - name: github.com/pierrec/lz4
   version: 5c9560bfa9ace2bf86080bf40d46b34ae44604df
 - name: github.com/pierrec/xxHash
@@ -72,6 +76,7 @@ imports:
   - internal/timeseries
   - lex/httplex
   - trace
+  - websocket
 - name: google.golang.org/grpc
   version: 708a7f9f3283aa2d4f6132d287d78683babe55c8
   subpackages:
