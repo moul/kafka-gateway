@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package kafka;
 
-option go_package = "kafkapb";
+option go_package = "github.com/moul/kafka-gateway/gen/pb;kafkapb";
 
 service KafkaService {
   // unaries

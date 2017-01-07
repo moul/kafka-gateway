@@ -14,7 +14,8 @@ import (
 var _ = fmt.Errorf
 
 func MakeGRPCServer(ctx context.Context, endpoints endpoints.Endpoints) pb.KafkaServiceServer {
-	options := []grpctransport.ServerOption{}
+	var options []grpctransport.ServerOption
+	_ = options
 	return &grpcServer{
 
 		consumer: grpctransport.NewServer(

@@ -8,7 +8,9 @@ import (
 	context "golang.org/x/net/context"
 )
 
+var _ = endpoint.Chain
 var _ = fmt.Errorf
+var _ = context.Background
 
 type StreamEndpoint func(server interface{}, req interface{}) (err error)
 

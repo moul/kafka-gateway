@@ -12,6 +12,10 @@ import (
 	pb "github.com/moul/kafka-gateway/gen/pb"
 )
 
+var _ = log.Printf
+var _ = gokit_endpoint.Chain
+var _ = httptransport.NewClient
+
 func MakeConsumerHandler(ctx context.Context, svc pb.KafkaServiceServer, endpoint gokit_endpoint.Endpoint) *httptransport.Server {
 	return httptransport.NewServer(
 		ctx,
