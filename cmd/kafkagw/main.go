@@ -13,6 +13,7 @@ import (
 	sarama "github.com/Shopify/sarama"
 	"github.com/go-kit/kit/log"
 	"github.com/gorilla/handlers"
+	"github.com/urfave/cli"
 	"google.golang.org/grpc"
 
 	"github.com/moul/kafka-gateway/gen/endpoints"
@@ -23,7 +24,22 @@ import (
 )
 
 func main() {
-	brokers := []string{"127.0.0.1:9092"}
+	app := cli.NewApp()
+	app.Name = "kafkagw"
+	app.Usage = "Kafka Gateway (gRPC + http)"
+	app.Flags = []cli.Flag{
+		cli.StringSliceFlag{
+			Name:   "brokers, b",
+			Usage:  "List of Kafka Brokers",
+			EnvVar: "KAFKA_BROKERS",
+			Value:  &cli.StringSlice{"127.0.0.1:9092"},
+		},
+	}
+	app.Action = action
+	app.Run(os.Args)
+}
+
+func action(c *cli.Context) error {
 	mux := http.NewServeMux()
 	ctx := context.Background()
 	errc := make(chan error)
@@ -42,7 +58,7 @@ func main() {
 		config.Producer.Retry.Max = 5
 		config.Producer.Return.Successes = true
 		var err error
-		kafkaSyncProducer, err = sarama.NewSyncProducer(brokers, config)
+		kafkaSyncProducer, err = sarama.NewSyncProducer(c.StringSlice("brokers"), config)
 		if err != nil {
 			stdlog.Printf("Failed to initiate sarama.SyncProducer: %v", err)
 			os.Exit(-1)
@@ -50,7 +66,7 @@ func main() {
 	}
 
 	{
-		svc := kafkasvc.New(kafkaSyncProducer, brokers)
+		svc := kafkasvc.New(kafkaSyncProducer, c.StringSlice("brokers"))
 		endpoints := kafka_endpoints.MakeEndpoints(svc)
 		srv := kafka_grpctransport.MakeGRPCServer(ctx, endpoints)
 		kafkapb.RegisterKafkaServiceServer(s, srv)
@@ -82,4 +98,5 @@ func main() {
 	}()
 
 	logger.Log("exit", <-errc)
+	return nil
 }
