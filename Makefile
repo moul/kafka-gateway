@@ -1,7 +1,7 @@
 DOCKER_IMAGE ?=	moul/kafkagw
 
 .PHONY: build
-build: kafkagw kafkagw-client kafkagw-slackbot
+build: kafkagw kafkagw-client kafkagw-slackbot kafkagw-socketio
 
 kafkagw: gen/pb/kafka.pb.go cmd/kafkagw/main.go service/service.go
 	go build -o $@ ./cmd/$@
@@ -10,6 +10,9 @@ kafkagw-client: gen/pb/kafka.pb.go cmd/kafkagw-client/main.go
 	go build -o $@ ./cmd/$@
 
 kafkagw-slackbot: gen/pb/kafka.pb.go cmd/kafkagw-slackbot/main.go
+	go build -o $@ ./cmd/$@
+
+kafkagw-socketio: gen/pb/kafka.pb.go cmd/kafkagw-socketio/main.go
 	go build -o $@ ./cmd/$@
 
 gen/pb/kafka.pb.go:	pb/kafka.proto
@@ -34,6 +37,7 @@ install:
 	go install ./cmd/kafkagw
 	go install ./cmd/kafkagw-client
 	go install ./cmd/kafkagw-slackbot
+	go install ./cmd/kafkagw-socketio
 
 .PHONY: docker.build
 docker.build:

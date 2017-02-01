@@ -1,5 +1,5 @@
 hash: 3ae5a4c8e58591478c618f526c4a23c9b5c82dc623d8c5535e0b78f1e9f2f2ee
-updated: 2016-12-27T18:55:31.004127359+01:00
+updated: 2016-12-27T21:08:28.463341003+01:00
 imports:
 - name: github.com/BeepBoopHQ/go-slackbot
   version: 58027c0d5238a0604305652ea526b3c18a7cead1
@@ -41,8 +41,20 @@ imports:
   - proto
 - name: github.com/golang/snappy
   version: d9eb7a3d35ec988b8585d4a0068e462c27d28380
+- name: github.com/googollee/go-engine.io
+  version: ca9ced27e02c880970ee7726f9814f8a9c55d777
+  subpackages:
+  - message
+  - parser
+  - polling
+  - transport
+  - websocket
+- name: github.com/googollee/go-socket.io
+  version: e9f0a9b7a61267e1476f9f0a0429337813c39edd
 - name: github.com/gorilla/handlers
   version: 3a5767ca75ece5f7f1440b1d16975247f8d8b221
+- name: github.com/gorilla/websocket
+  version: 404e6b135d226cb21e3afea59a82c7b81fce18c8
 - name: github.com/klauspost/crc32
   version: cb6bfca970f6908083f26f39a79009d608efd5cd
 - name: github.com/kr/logfmt
