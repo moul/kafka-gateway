@@ -1,4 +1,7 @@
 # kafka-gateway
+
+[![GuardRails badge](https://badges.production.guardrails.io/moul/kafka-gateway.svg)](https://www.guardrails.io)
+
 :microphone: Kafka Gateway (gRPC+http) micro-service
 
 A [kafka](https://kafka.apache.org/) gateway / proxy, developed as a micro-service using [Sarama](https://github.com/Shopify/sarama), [Protobuf](https://github.com/google/protobuf) and [Go-Kit](https://github.com/go-kit/kit), with more that 75% boilerplate code generated automatically using [protoc-gen-gotemplate](https://github.com/moul/protoc-gen-gotemplate).
